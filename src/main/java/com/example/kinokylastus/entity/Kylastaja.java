@@ -5,14 +5,22 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "külastajad")
-public class Külastaja {
+@Table(name = "kylastajad")
+public class Kylastaja {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nimi;
     private int vanus;
+
+    public Kylastaja(String nimi, int vanus) {
+        this.nimi = nimi;
+        this.vanus = vanus;
+    }
+
+    public Kylastaja() {
+
+    }
 
     public Long getId() {
         return id;

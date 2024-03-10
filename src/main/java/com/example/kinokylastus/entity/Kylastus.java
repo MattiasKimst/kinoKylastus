@@ -5,21 +5,32 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "külastused")
-public class Külastus {
+@Table(name = "kylastused")
+public class Kylastus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "külastaja_id")
-    private Külastaja külastaja;
+    private Kylastaja kylastaja;
 
     private int istekoht;
 
     @ManyToOne
     @JoinColumn(name = "kinoseanss_id")
     private Kinoseanss kinoseanss;
+
+
+    public Kylastus(Kylastaja kylastaja, int istekoht, Kinoseanss kinoseanss) {
+        this.kylastaja = kylastaja;
+        this.istekoht = istekoht;
+        this.kinoseanss = kinoseanss;
+    }
+
+    public Kylastus() {
+
+    }
 
     public Long getId() {
         return id;
@@ -29,12 +40,12 @@ public class Külastus {
         this.id = id;
     }
 
-    public Külastaja getKülastaja() {
-        return külastaja;
+    public Kylastaja getKülastaja() {
+        return kylastaja;
     }
 
-    public void setKülastaja(Külastaja külastaja) {
-        this.külastaja = külastaja;
+    public void setKülastaja(Kylastaja külastaja) {
+        this.kylastaja = külastaja;
     }
 
     public int getIstekoht() {

@@ -13,10 +13,18 @@ public class Kinoseanss {
     @JoinColumn(name = "film_id")
     private Film film;
 
-    private LocalDateTime timestamp;
+    private LocalDateTime algusaeg;
 
     public Long getId() {
         return id;
+    }
+
+    public Kinoseanss() {
+        // Default constructor
+    }
+    public Kinoseanss(Film film, LocalDateTime algusaeg) {
+        this.film = film;
+        this.algusaeg = algusaeg;
     }
 
     public void setId(Long id) {
@@ -31,12 +39,12 @@ public class Kinoseanss {
         this.film = film;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getAlgusaeg() {
+        return algusaeg;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setAlgusaeg(LocalDateTime timestamp) {
+        this.algusaeg = timestamp;
     }
 
     // Constructor, getterid ja setterid

@@ -14,6 +14,18 @@ public class Film {
     private String keel;
     private int vanusepiirang;
 
+    public Film( String pealkiri, String žanr, String keel, int vanusepiirang) {
+
+        this.pealkiri = pealkiri;
+        this.žanr = žanr;
+        this.keel = keel;
+        this.vanusepiirang = vanusepiirang;
+    }
+
+    public Film() {
+
+    }
+
     public Long getId() {
         return id;
     }
