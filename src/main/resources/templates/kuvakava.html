@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinokava</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Kinokava</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Film</th>
+        <th>Genre</th>
+        <th>Language</th>
+        <th>Age Rating</th>
+        <th>Start Time</th>
+    </tr>
+    </thead>
+    <tbody th:each="seans : ${kinokava}">
+    <tr>
+        <td th:text="${seans.film.pealkiri}"></td>
+        <td th:text="${seans.film.žanr}"></td>
+        <td th:text="${seans.film.keel}"></td>
+        <td th:text="${seans.film.vanusepiirang}"></td>
+        <td th:text="${seans.algusaeg}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
