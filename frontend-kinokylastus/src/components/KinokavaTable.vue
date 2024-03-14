@@ -37,6 +37,7 @@
         <th>Keel</th>
         <th>Vanusepiirang</th>
         <th>Algusaeg</th>
+        <th>Vali</th>
       </tr>
       </thead>
       <tbody>
@@ -47,6 +48,7 @@
         <td>{{ item.film?.keel }}</td>
         <td>{{ item.film?.vanusepiirang }}</td>
         <td>{{ item.algusaeg }}</td>
+        <td><button @click="navigateToFilmisaal(item)">Vali</button></td>
       </tr>
       </tbody>
     </table>
@@ -113,6 +115,10 @@ export default {
     applyDateFilter() {
       // ajafilter lähtestatakse kui valitakse uus kuupäev
       this.algusAeg = "";
+    },
+    navigateToFilmisaal(selectedSeanss) {
+      // Suuna edasi filmisaali vaatesse, edastades valitud seansi andmed
+      this.$router.push({ name: 'Filmisaal', params: { seanss: selectedSeanss } });
     }
   }
 };

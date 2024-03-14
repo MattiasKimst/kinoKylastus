@@ -1,20 +1,17 @@
 <template>
   <div id="app">
-    <kinokava-view></kinokava-view>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import KinokavaView from './views/KinokavaView.vue';
-
 export default {
-  components: {
-    KinokavaView
-  }
+  name: 'App',
 };
 </script>
 
 <style>
 
 </style>
+
 
