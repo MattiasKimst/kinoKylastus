@@ -1,6 +1,6 @@
 <template>
   <div class="filmisaal">
-    <div v-for="seat in istekohad" :key="seat.id" class="istekoht" :class="{ selected: seat.selected, reserved: seat.reserved }" >
+    <div v-for="seat in istekohad" :key="seat.id" class="istekoht" :class="{ valitud: seat.valitud, reserveeritud: seat.reserveeritud }" >
       {{ seat.number }}
     </div>
     <div class="broneerimine">
@@ -28,14 +28,14 @@ export default {
       var num=1;
       for (let i = 1; i <= 5; i++) {
         for (let j = 1; j <=10 ; j++) {
-        this.istekohad.push({
-          id: num,
-          number: num++,
-          row: i,
-          selected: false,
-          reserved: false
-        });
-      }}
+          this.istekohad.push({
+            id: num,
+            number: num++,
+            rida: i,
+            valitud: false,
+            reserveeritud: false
+          });
+        }}
     },
     märgiIstekohadVõetuks() {
       // genereerime juhuslikult broneeritud istekohad
@@ -47,40 +47,60 @@ export default {
       // märgime valitud istekohad broneerituks
       reserveeritudIstekohtad.forEach(id => {
         const seat = this.istekohad.find(seat => seat.id === id);
-        seat.reserved = true;
+        seat.reserveeritud = true;
       });
     },
 
     soovitaIstekohti() {
+      // sorteeri istekohad rea ja numbri järgi
+      const sorteeritudIstekohad = [...this.istekohad].sort((a, b) => a.rida - b.rida || a.number - b.number);
 
-      const soovitatudIstekohad = [];
-      const algusindex = 25; // keskelt alustamine
-      let vasakIndeks = algusindex;
-      let paremIndeks = algusindex;
+      // leiame keskmise rea
+      const keskmineRida = Math.ceil(this.istekohad.length / 20);
 
-      while (soovitatudIstekohad.length < this.piletiteArv) {
-        // Kontrollime, kas saame vasakul ja paremal poolel rohkem istekohti
-        const vasakKoht = this.istekohad.find(seat => seat.id === vasakIndeks);
-        const paremKoht = this.istekohad.find(seat => seat.id === paremIndeks);
+      // alustame keskmisest reast ja vajadusel liigume eesmisesse või tagumisse ritta
+      for (let offset = 0; offset < keskmineRida; offset++) {
+        const vaadeldavRida = keskmineRida - offset;
+        const järgmineRida = keskmineRida + offset;
 
-        if (vasakKoht && !vasakKoht.reserved && !vasakKoht.selected) {
-          soovitatudIstekohad.push(vasakKoht.id);
+        // filtreerime välja vabad kohad vaadeldavas ja naaberridades
+        const saadavalKohadVaadeldavasJaNaaberRidades = sorteeritudIstekohad.filter(koht => (koht.rida === vaadeldavRida || koht.rida === järgmineRida) && !koht.reserveeritud);
+
+        // leiame vaadeldava ja naaberridade keskimise koha
+        const keskmineIste = Math.floor(saadavalKohadVaadeldavasJaNaaberRidades.length / 2);
+
+        // Leiame sobiva istekohtade grupi piletite kasutaja sisestatud istekohtade arvu järgi
+        const poolKohti=Math.floor(this.piletiteArv);
+        const soovitatudIstekohad = saadavalKohadVaadeldavasJaNaaberRidades.slice(keskmineIste-poolKohti, keskmineIste + this.piletiteArv-poolKohti);
+
+        // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
+        if (soovitatudIstekohad.length === this.piletiteArv && this.kasKohadJärjestikused(soovitatudIstekohad)) {
+          // märgime leitud kohad valituks
+          soovitatudIstekohad.forEach(istekoht => {
+            istekoht.valitud = true;
+          });
+          return;
         }
-
-        if (paremKoht && !paremKoht.reserved && !paremKoht.selected) {
-          soovitatudIstekohad.push(paremKoht.id);
-        }
-        // Liigume järgmisele istekohale
-        vasakIndeks--;
-        paremIndeks++;
       }
 
-      // Kuva soovitatud istekohad rohelisena
-      soovitatudIstekohad.forEach(id => {
-        const seat = this.istekohad.find(seat => seat.id === id);
-        seat.selected = true;
-      });
+      //kui ei leitud sobivaid kohti
+    },
+
+    kasKohadJärjestikused(seats) {
+      // sorteerime istekohad numbri järgi
+      const sorteeritudIstekohad = [...seats].sort((a, b) => a.number - b.number);
+
+      // kontrollime for tsükkliga, kas etteantud istekohad asuvad kõik üksteise järel
+      for (let i = 1; i < sorteeritudIstekohad.length; i++) {
+        if (sorteeritudIstekohad[i].number !== sorteeritudIstekohad[i - 1].number + 1) {
+          return false;
+        }
+      }
+
+      return true;
     }
+
+
 
   }
 
@@ -104,12 +124,12 @@ export default {
   cursor: pointer;
 }
 
-.istekoht.selected {
+.istekoht.valitud {
   background-color: #009688;
   color: white;
 }
 
-.istekoht.reserved {
+.istekoht.reserveeritud {
   background-color: #ff4d4d;
 }
 
