@@ -1,57 +1,59 @@
 <template>
-  <div>
+  <div class="kinokava-container">
     <h1>Kinokava</h1>
 
-    <div>
+    <div class="filter-section">
       <label>Žanr:</label>
-      <select v-model="valitudZanr">
+      <select v-model="valitudZanr" class="input-field">
         <option value="">Kõik</option>
         <option v-for="zanr in zanrid" :value="zanr" :key="zanr">{{ zanr }}</option>
       </select>
     </div>
 
-    <div>
+    <div class="filter-section">
       <label>Vanusepiirang:</label>
-      <select v-model="valitudVanus">
+      <select v-model="valitudVanus" class="input-field">
         <option value="">Kõik</option>
         <option v-for="vanus in vanuseVahemikud" :value="vanus" :key="vanus">{{ vanus }}</option>
       </select>
     </div>
 
-    <div>
+    <div class="filter-section">
       <label>Algus alates:</label>
-      <input type="time" v-model="algusAeg" step="1">
+      <input type="time" v-model="algusAeg" step="1" class="input-field">
     </div>
 
-    <div>
+    <div class="filter-section">
       <label>Kuupäev alates:</label>
-      <input type="date" v-model="algusKuupäev" @change="applyDateFilter">
+      <input type="date" v-model="algusKuupäev" @change="applyDateFilter" class="input-field">
     </div>
 
-    <table class="table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Pealkiri</th>
-        <th>Žanr</th>
-        <th>Keel</th>
-        <th>Vanusepiirang</th>
-        <th>Algusaeg</th>
-        <th>Vali</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="item in filtreeritudKava" :key="item.id">
-        <td>{{ item.id }}</td>
-        <td>{{ item.film?.pealkiri }}</td>
-        <td>{{ item.film?.žanr }}</td>
-        <td>{{ item.film?.keel }}</td>
-        <td>{{ item.film?.vanusepiirang }}</td>
-        <td>{{ item.algusaeg }}</td>
-        <td><button @click="navigateToFilmisaal(item)">Vali</button></td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pealkiri</th>
+          <th>Žanr</th>
+          <th>Keel</th>
+          <th>Vanusepiirang</th>
+          <th>Algusaeg</th>
+          <th>Vali</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in filtreeritudKava" :key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.film?.pealkiri }}</td>
+          <td>{{ item.film?.žanr }}</td>
+          <td>{{ item.film?.keel }}</td>
+          <td>{{ item.film?.vanusepiirang }}</td>
+          <td>{{ item.algusaeg }}</td>
+          <td><button @click="navigateToFilmisaal(item)">Vali</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -125,6 +127,26 @@ export default {
 </script>
 
 <style scoped>
+.kinokava-container {
+  max-width: 800px; /* Adjust the maximum width as needed */
+  margin: 0 auto; /* Center the container */
+}
+
+.filter-section {
+  margin-bottom: 10px;
+}
+
+.input-field {
+  width: 100%; /* Fill the container */
+  height: 30px;
+  padding: 5px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Add horizontal scroll if needed */
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;

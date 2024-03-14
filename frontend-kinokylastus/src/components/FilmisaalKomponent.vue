@@ -1,12 +1,16 @@
 <template>
-  <div class="filmisaal">
-    <div v-for="seat in istekohad" :key="seat.id" class="istekoht" :class="{ valitud: seat.valitud, reserveeritud: seat.reserveeritud }" >
-      {{ seat.number }}
-    </div>
-    <div class="broneerimine">
-      <label for="piletiteArv">Sisesta piletite arv:</label>
-      <input type="number" id="piletiteArv" v-model="piletiteArv" min="1" max="10">
-      <button @click="soovitaIstekohti">Soovita istekohti</button>
+
+  <div class="filmisaal-container"><h1>Filmisaal</h1>
+    <div class="filmisaal">
+      <div v-for="seat in istekohad" :key="seat.id" class="istekoht"
+           :class="{ valitud: seat.valitud, reserveeritud: seat.reserveeritud }">
+        {{ seat.number }}
+      </div>
+      <div class="broneerimine">
+        <label for="piletiteArv">Sisesta piletite arv:</label>
+        <input type="number" id="piletiteArv" v-model="piletiteArv" min="1" max="10">
+        <button @click="soovitaIstekohti">Soovita istekohti</button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,9 +29,9 @@ export default {
   },
   methods: {
     looIsteKohad() {
-      var num=1;
+      var num = 1;
       for (let i = 1; i <= 5; i++) {
-        for (let j = 1; j <=10 ; j++) {
+        for (let j = 1; j <= 10; j++) {
           this.istekohad.push({
             id: num,
             number: num++,
@@ -35,7 +39,8 @@ export default {
             valitud: false,
             reserveeritud: false
           });
-        }}
+        }
+      }
     },
     märgiIstekohadVõetuks() {
       // genereerime juhuslikult broneeritud istekohad
@@ -70,8 +75,8 @@ export default {
         const keskmineIste = Math.floor(saadavalKohadVaadeldavasJaNaaberRidades.length / 2);
 
         // Leiame sobiva istekohtade grupi piletite kasutaja sisestatud istekohtade arvu järgi
-        const poolKohti=Math.floor(this.piletiteArv);
-        const soovitatudIstekohad = saadavalKohadVaadeldavasJaNaaberRidades.slice(keskmineIste-poolKohti, keskmineIste + this.piletiteArv-poolKohti);
+        const poolKohti = Math.floor(this.piletiteArv);
+        const soovitatudIstekohad = saadavalKohadVaadeldavasJaNaaberRidades.slice(keskmineIste - poolKohti, keskmineIste + this.piletiteArv - poolKohti);
 
         // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
         if (soovitatudIstekohad.length === this.piletiteArv && this.kasKohadJärjestikused(soovitatudIstekohad)) {
@@ -101,22 +106,28 @@ export default {
     }
 
 
-
   }
 
 };
 </script>
 
 <style scoped>
+.filmisaal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .filmisaal {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
-  gap: 5px;
+  grid-template-columns: repeat(10, 60px);
+  gap: 10px;
+  justify-content: center;
 }
 
 .istekoht {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border: 1px solid #ccc;
   display: flex;
   align-items: center;
@@ -140,4 +151,5 @@ export default {
 .broneerimine button {
   margin-left: 10px;
 }
+
 </style>
