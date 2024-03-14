@@ -49,11 +49,48 @@
           <td>{{ item.film?.keel }}</td>
           <td>{{ item.film?.vanusepiirang }}</td>
           <td>{{ item.algusaeg }}</td>
-          <td><button @click="navigateToFilmisaal(item)">Vali</button></td>
+          <td>
+            <button @click="navigateToFilmisaal(item)">Vali</button>
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
+    <form @submit.prevent="submitKylastajaId">
+      <label for="kylastajaId">Külastaja ID:</label>
+      <input type="text" id="kylastajaId" v-model="kylastajaId" class="input-field">
+      <button type="submit">Soovitus</button>
+    </form>
+    <div v-if="soovitusData">
+      <h2>Soovitus:</h2>
+      <table class="soovitus-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Pealkiri</th>
+          <th>Žanr</th>
+          <th>Keel</th>
+          <th>Vanusepiirang</th>
+          <th>Algusaeg</th>
+          <th>Vali</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{ soovitusData.id }}</td>
+          <td>{{ soovitusData.film.pealkiri }}</td>
+          <td>{{ soovitusData.film.žanr }}</td>
+          <td>{{ soovitusData.film.keel }}</td>
+          <td>{{ soovitusData.film.vanusepiirang }}</td>
+          <td>{{ soovitusData.algusaeg }}</td>
+          <td>
+            <button @click="navigateToFilmisaal(soovitusData)">Vali</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -61,6 +98,8 @@
 export default {
   data() {
     return {
+      kylastajaId: "",
+      soovitusData: null,
       kinokava: [],
       valitudZanr: "",
       valitudVanus: "",
@@ -105,6 +144,15 @@ export default {
     this.fetchKinokava();
   },
   methods: {
+    async submitKylastajaId() {
+      try {
+        const response = await fetch(`http://localhost:8081/soovitused/${this.kylastajaId}`);
+        const data = await response.json();
+        this.soovitusData = data;
+      } catch (error) {
+        console.error("Viga soovituse hankimisel back-endist:", error);
+      }
+    },
     async fetchKinokava() {
       try {
         const response = await fetch('http://localhost:8081/kinokava');
@@ -120,7 +168,7 @@ export default {
     },
     navigateToFilmisaal(selectedSeanss) {
       // Suuna edasi filmisaali vaatesse, edastades valitud seansi andmed
-      this.$router.push({ name: 'Filmisaal', params: { seanss: selectedSeanss } });
+      this.$router.push({name: 'Filmisaal', params: {seanss: selectedSeanss}});
     }
   }
 };
@@ -166,5 +214,22 @@ export default {
 
 .table tbody tr:hover {
   background-color: #f5f5f5;
+}
+
+.soovitus-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.soovitus-table th,
+.soovitus-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.soovitus-table th {
+  background-color: #f2f2f2;
+  color: #333;
 }
 </style>
