@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <kinokava-table></kinokava-table>
+    <kinokava-view></kinokava-view>
   </div>
 </template>
 
 <script>
-import KinokavaTable from './components/KinokavaTable.vue';
+import KinokavaView from './views/KinokavaView.vue';
 
 export default {
   components: {
-    KinokavaTable
+    KinokavaView
   }
 };
 </script>
 
 <style>
-/* Add your global styling here */
+
 </style>
+

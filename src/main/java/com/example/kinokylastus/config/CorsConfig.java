@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
+    //otherwise CORS policy is blocking the request from Vue.js frontend
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

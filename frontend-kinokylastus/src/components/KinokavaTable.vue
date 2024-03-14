@@ -51,5 +51,23 @@ export default {
 </script>
 
 <style scoped>
-/* Add your styling here */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
 </style>
