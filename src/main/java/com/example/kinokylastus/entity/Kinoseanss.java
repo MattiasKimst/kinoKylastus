@@ -15,6 +15,7 @@ public class Kinoseanss {
 
     private LocalDateTime algusaeg;
 
+
     public Long getId() {
         return id;
     }
