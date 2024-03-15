@@ -6,10 +6,10 @@
            :class="{ valitud: seat.valitud, reserveeritud: seat.reserveeritud }">
         {{ seat.number }}
       </div>
-      <div class="broneerimine">
+      <div class="broneerimine" v-if="!buttonClicked">
         <label for="piletiteArv">Sisesta piletite arv:</label>
         <input type="number" id="piletiteArv" v-model="piletiteArv" min="1" max="10">
-        <button @click="soovitaIstekohti">Soovita istekohti</button>
+        <button @click="soovitaIstekohti" >Soovita istekohti</button>
       </div>
     </div>
   </div>
@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       istekohad: [],//selles massiivis hoiame istekohti
-      piletiteArv: 1
+      piletiteArv: 1,
+      buttonClicked: false
     };
   },
   mounted() {
@@ -57,6 +58,7 @@ export default {
     },
 
     soovitaIstekohti() {
+      this.buttonClicked = true;
       // sorteeri istekohad rea ja numbri järgi
       const sorteeritudIstekohad = [...this.istekohad].sort((a, b) => a.rida - b.rida || a.number - b.number);
 
@@ -113,6 +115,12 @@ export default {
 
 <style scoped>
 .filmisaal-container {
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,6 +131,7 @@ export default {
   grid-template-columns: repeat(10, 60px);
   gap: 10px;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .istekoht {
@@ -133,23 +142,66 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.istekoht:hover {
+  transform: scale(1.1);
 }
 
 .istekoht.valitud {
-  background-color: #009688;
+  background-color: #4CAF50;
   color: white;
+  border-color: #4CAF50;
 }
 
 .istekoht.reserveeritud {
   background-color: #ff4d4d;
+  color: white;
+  border-color: #ff4d4d;
 }
 
 .broneerimine {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.broneerimine label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.broneerimine input[type=number] {
+  width: calc(100% - 10px);
+  height: 40px;
+  padding: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .broneerimine button {
-  margin-left: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.broneerimine button:hover {
+  background-color: white;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
 }
 
 </style>
