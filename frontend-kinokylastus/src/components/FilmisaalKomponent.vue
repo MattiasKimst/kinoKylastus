@@ -9,7 +9,10 @@
       <div class="broneerimine" v-if="!buttonClicked">
         <label for="piletiteArv">Sisesta piletite arv:</label>
         <input type="number" id="piletiteArv" v-model="piletiteArv" min="1" max="10">
-        <button @click="soovitaIstekohti" >Soovita istekohti</button>
+        <button @click="soovitaIstekohti">Soovita istekohti</button>
+      </div>
+      <div v-if="!istekohadLeitud&&buttonClicked" class="message">
+        Sobivaid istekohti ei leitud.
       </div>
     </div>
   </div>
@@ -21,7 +24,8 @@ export default {
     return {
       istekohad: [],//selles massiivis hoiame istekohti
       piletiteArv: 1,
-      buttonClicked: false
+      buttonClicked: false,
+      istekohadLeitud: true
     };
   },
   mounted() {
@@ -62,35 +66,57 @@ export default {
       // sorteeri istekohad rea ja numbri järgi
       const sorteeritudIstekohad = [...this.istekohad].sort((a, b) => a.rida - b.rida || a.number - b.number);
 
-      // leiame keskmise rea
-      const keskmineRida = Math.ceil(this.istekohad.length / 20);
+      let istekohadLeitud = false;
 
-      // alustame keskmisest reast ja vajadusel liigume eesmisesse või tagumisse ritta
-      for (let offset = 0; offset < keskmineRida; offset++) {
-        const vaadeldavRida = keskmineRida - offset;
-        const järgmineRida = keskmineRida + offset;
-
-        // filtreerime välja vabad kohad vaadeldavas ja naaberridades
-        const saadavalKohadVaadeldavasJaNaaberRidades = sorteeritudIstekohad.filter(koht => (koht.rida === vaadeldavRida || koht.rida === järgmineRida) && !koht.reserveeritud);
-
-        // leiame vaadeldava ja naaberridade keskimise koha
-        const keskmineIste = Math.floor(saadavalKohadVaadeldavasJaNaaberRidades.length / 2);
-
-        // Leiame sobiva istekohtade grupi piletite kasutaja sisestatud istekohtade arvu järgi
-        const poolKohti = Math.floor(this.piletiteArv);
-        const soovitatudIstekohad = saadavalKohadVaadeldavasJaNaaberRidades.slice(keskmineIste - poolKohti, keskmineIste + this.piletiteArv - poolKohti);
-
-        // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
-        if (soovitatudIstekohad.length === this.piletiteArv && this.kasKohadJärjestikused(soovitatudIstekohad)) {
-          // märgime leitud kohad valituks
-          soovitatudIstekohad.forEach(istekoht => {
-            istekoht.valitud = true;
-          });
+      const read = [3, 2, 4, 1, 5];
+      // misjärjekorras ridu vaatame on defineeritud üleval listis
+      read.forEach((vaadeldavRida) => {
+        if (istekohadLeitud) {
           return;
         }
-      }
 
-      //kui ei leitud sobivaid kohti
+        // leiame vaadeldava rea kohtade listi
+        const saadavalKohadVaadeldavasReas = sorteeritudIstekohad.filter(koht => (koht.rida === vaadeldavRida && koht.reserveeritud === false));
+        console.log(saadavalKohadVaadeldavasReas);
+
+        // leiame rea keskmise koha
+        const keskmineIste=5;
+
+
+        const poolKohti = Math.floor(this.piletiteArv);
+
+        // Leiame sobiva istekohtade grupi piletite kasutaja sisestatud istekohtade arvu järgi
+        for (let i = 0; i < 5; i++) {
+          var vaadeldavKeskmine = keskmineIste + i;
+          const soovitatudIstekohad1 = saadavalKohadVaadeldavasReas.slice(vaadeldavKeskmine - poolKohti, vaadeldavKeskmine + this.piletiteArv - poolKohti);
+          // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
+          if (soovitatudIstekohad1.length === this.piletiteArv && this.kasKohadJärjestikused(soovitatudIstekohad1)) {
+            // märgime leitud kohad valituks
+            soovitatudIstekohad1.forEach(istekoht => {
+              istekoht.valitud = true;
+            });
+            istekohadLeitud = true;
+            return;
+          }
+          vaadeldavKeskmine = keskmineIste - i;
+          const soovitatudIstekohad2 = saadavalKohadVaadeldavasReas.slice(vaadeldavKeskmine - poolKohti, vaadeldavKeskmine + this.piletiteArv - poolKohti);
+          // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
+          if (soovitatudIstekohad2.length === this.piletiteArv && this.kasKohadJärjestikused(soovitatudIstekohad2)) {
+            // märgime leitud kohad valituks
+            soovitatudIstekohad2.forEach(istekoht => {
+              istekoht.valitud = true;
+            });
+            istekohadLeitud = true;
+            return;
+          }
+        }
+
+
+      });
+
+      if (!istekohadLeitud) {
+        this.istekohadLeitud = false;
+      }
     },
 
     kasKohadJärjestikused(seats) {

@@ -36,4 +36,15 @@ public class Kinoseanss {
         return film;
     }
 
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
+    public LocalDateTime getAlgusaeg() {
+        return algusaeg;
+    }
+
+    public void setAlgusaeg(LocalDateTime algusaeg) {
+        this.algusaeg = algusaeg;
+    }
 }

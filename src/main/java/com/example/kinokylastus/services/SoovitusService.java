@@ -66,7 +66,7 @@ public class SoovitusService {
         String külastatuimŽanr = arvutaKülastatuimZanr(kylastused);
         logger.info(külastatuimŽanr);
 
-        // võtame kõige varem toimuva kõige külastatuma žanri filmi
+        // võtame kõige varem toimuva kõige külastatuima žanri filmi
         return kinoseanssRepository.findFirstUpcomingByGenre(külastatuimŽanr, LocalDateTime.now());
     }
 

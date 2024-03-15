@@ -126,7 +126,7 @@ export default {
       if (this.valitudVanus) {
         filtreeritud = filtreeritud.filter(item => {
           const vanusepiirang = item.film?.vanusepiirang;
-          return !vanusepiirang || parseInt(vanusepiirang) <= parseInt(this.valitudVanus);
+          return !vanusepiirang || parseInt(vanusepiirang) >= parseInt(this.valitudVanus);
         });
       }
 

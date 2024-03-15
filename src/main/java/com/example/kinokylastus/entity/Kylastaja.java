@@ -34,5 +34,16 @@ public class Kylastaja {
         return nimi;
     }
 
+    public void setNimi(String nimi) {
+        this.nimi = nimi;
+    }
+
+    public int getVanus() {
+        return vanus;
+    }
+
+    public void setVanus(int vanus) {
+        this.vanus = vanus;
+    }
 }
 

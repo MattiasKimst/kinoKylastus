@@ -38,6 +38,32 @@ public class Film {
         return žanr;
     }
 
+    public String getPealkiri() {
+        return pealkiri;
+    }
 
+    public void setPealkiri(String pealkiri) {
+        this.pealkiri = pealkiri;
+    }
+
+    public void setŽanr(String žanr) {
+        this.žanr = žanr;
+    }
+
+    public String getKeel() {
+        return keel;
+    }
+
+    public void setKeel(String keel) {
+        this.keel = keel;
+    }
+
+    public int getVanusepiirang() {
+        return vanusepiirang;
+    }
+
+    public void setVanusepiirang(int vanusepiirang) {
+        this.vanusepiirang = vanusepiirang;
+    }
 }
 

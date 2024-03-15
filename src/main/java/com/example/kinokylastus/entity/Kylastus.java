@@ -45,5 +45,23 @@ public class Kylastus {
         return kinoseanss;
     }
 
+    public Kylastaja getKylastaja() {
+        return kylastaja;
+    }
 
+    public void setKylastaja(Kylastaja kylastaja) {
+        this.kylastaja = kylastaja;
+    }
+
+    public int getIstekoht() {
+        return istekoht;
+    }
+
+    public void setIstekoht(int istekoht) {
+        this.istekoht = istekoht;
+    }
+
+    public void setKinoseanss(Kinoseanss kinoseanss) {
+        this.kinoseanss = kinoseanss;
+    }
 }
