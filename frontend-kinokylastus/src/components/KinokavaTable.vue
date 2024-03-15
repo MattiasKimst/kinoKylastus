@@ -24,7 +24,6 @@
     </div>
 
 
-
     <div class="filter-section">
       <label>Kuupäev alates:</label>
       <input type="date" v-model="algusKuupäev" @change="applyDateFilter" class="input-field">
@@ -132,8 +131,30 @@ export default {
 
       //valime filmid, mille alguskellaaeg on alates valitud alguskellaajast
       if (this.algusAeg) {
-        filtreeritud = filtreeritud.filter(item => item.algusaeg >= this.algusAeg);
+        filtreeritud = filtreeritud.filter(item => {
+          //eraldame kellaaja datetime'st
+          const tabeliAlgusaeg = item.algusaeg.split('T')[1];
+          const sisestatudAlgusaeg = this.algusAeg;
+
+          // eraldame kellaaegades tunnid ja miniutid
+          const tabeliTunnid = parseInt(tabeliAlgusaeg.split(':')[0], 10);
+          const tabeliMinutid = parseInt(tabeliAlgusaeg.split(':')[1], 10);
+
+          const sisestatudTunnid = parseInt(sisestatudAlgusaeg.split(':')[0], 10);
+          const sisestatudMinutid = parseInt(sisestatudAlgusaeg.split(':')[1], 10);
+
+
+          // Võrdleme tundide ja minutite väärtusi
+          if (tabeliTunnid > sisestatudTunnid) {
+            return true; // Kui kirje algusaeg on hilisem
+          } else if (tabeliTunnid === sisestatudTunnid && tabeliMinutid >= sisestatudMinutid) {
+            return true; // Kui tabeli kirje algusaeg on sama tundide osas, kuid hilisem minutite osas
+          } else {
+            return false; // Kui tabeli kirje algusaeg on varasem
+          }
+        });
       }
+
 
       // valime filmid, mille kuupäev on alates valitud kuupäevast
       if (this.algusKuupäev) {
@@ -196,11 +217,15 @@ export default {
     // Meetod kellaaja vormindamiseks
     formatTime(dateTimeString) {
       const date = new Date(dateTimeString);
-      // Vormindame kellaaja tund-minut kujul
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    },
+      // Convert to UTC+2 (CEST) time zone
+      date.setUTCHours(date.getUTCHours() + 2);
+      // Format the time as hours:minutes
+      const formattedTime = date.toISOString().split('T')[1].slice(0, 5);
+      return formattedTime;
+    }
   }
-};
+}
+;
 </script>
 
 <style scoped>

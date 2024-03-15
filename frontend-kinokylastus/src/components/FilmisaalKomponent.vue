@@ -79,14 +79,16 @@ export default {
         const saadavalKohadVaadeldavasReas = sorteeritudIstekohad.filter(koht => (koht.rida === vaadeldavRida && koht.reserveeritud === false));
         console.log(saadavalKohadVaadeldavasReas);
 
-        // leiame rea keskmise koha
+        // rea keskmine koht
         const keskmineIste=5;
 
 
+        //jagame piletite arvu kaheks, et hiljem paneme vaadeldavast kohast vasakule pooled ja ülejäänud paremale
         const poolKohti = Math.floor(this.piletiteArv);
 
         // Leiame sobiva istekohtade grupi piletite kasutaja sisestatud istekohtade arvu järgi
         for (let i = 0; i < 5; i++) {
+          //liigume reas paremale
           var vaadeldavKeskmine = keskmineIste + i;
           const soovitatudIstekohad1 = saadavalKohadVaadeldavasReas.slice(vaadeldavKeskmine - poolKohti, vaadeldavKeskmine + this.piletiteArv - poolKohti);
           // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
@@ -98,6 +100,7 @@ export default {
             istekohadLeitud = true;
             return;
           }
+          //liigume reas vasakule
           vaadeldavKeskmine = keskmineIste - i;
           const soovitatudIstekohad2 = saadavalKohadVaadeldavasReas.slice(vaadeldavKeskmine - poolKohti, vaadeldavKeskmine + this.piletiteArv - poolKohti);
           // kontrollime, kas soovitatudIstekohad seas on õige arv kohti ja abimeetodiga kontrollime, kas need on järjestikku
