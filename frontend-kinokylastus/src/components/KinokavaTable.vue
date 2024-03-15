@@ -37,7 +37,8 @@
           <th>Žanr</th>
           <th>Keel</th>
           <th>Vanusepiirang</th>
-          <th>Algusaeg</th>
+          <th>Alguskuupäev</th>
+          <th>Alguskellaaeg</th>
           <th>Vali</th>
         </tr>
         </thead>
@@ -48,7 +49,8 @@
           <td>{{ item.film?.žanr }}</td>
           <td>{{ item.film?.keel }}</td>
           <td>{{ item.film?.vanusepiirang }}</td>
-          <td>{{ item.algusaeg }}</td>
+          <td>{{ formatDate(item.algusaeg) }}</td>
+          <td>{{ formatTime(item.algusaeg) }}</td>
           <td>
             <button @click="navigateToFilmisaal(item)">Vali</button>
           </td>
@@ -181,15 +183,26 @@ export default {
     navigateToFilmisaal(selectedSeanss) {
       // Suuna edasi filmisaali vaatesse, edastades valitud seansi andmed
       this.$router.push({name: 'Filmisaal', params: {seanss: selectedSeanss}});
-    }
+    },
+    formatDate(dateTimeString) {
+      const date = new Date(dateTimeString);
+      // Vormindame kuupäeva aasta-kuu-päev kujul
+      return date.toISOString().split('T')[0];
+    },
+    // Meetod kellaaja vormindamiseks
+    formatTime(dateTimeString) {
+      const date = new Date(dateTimeString);
+      // Vormindame kellaaja tund-minut kujul
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    },
   }
 };
 </script>
 
 <style scoped>
 .kinokava-container {
-  max-width: 800px; /* Adjust the maximum width as needed */
-  margin: 0 auto; /* Center the container */
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .filter-section {
@@ -197,14 +210,14 @@ export default {
 }
 
 .input-field {
-  width: 100%; /* Fill the container */
+  width: 100%;
   height: 30px;
   padding: 5px;
 }
 
 .table-container {
   width: 100%;
-  overflow-x: auto; /* Add horizontal scroll if needed */
+  overflow-x: auto;
 }
 
 .table {
