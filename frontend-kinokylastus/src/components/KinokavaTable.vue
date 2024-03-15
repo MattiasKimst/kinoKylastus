@@ -111,10 +111,12 @@ export default {
     filtreeritudKava() {
       let filtreeritud = this.kinokava;
 
+      //valime välja filmid, mille žanr kattub valitud žanriga
       if (this.valitudZanr) {
         filtreeritud = filtreeritud.filter(item => item.film?.žanr === this.valitudZanr);
       }
 
+      //valime kõik filmid, mille vanusepiirang <= dropdownis valitud piirang
       if (this.valitudVanus) {
         filtreeritud = filtreeritud.filter(item => {
           const vanusepiirang = item.film?.vanusepiirang;
@@ -122,10 +124,12 @@ export default {
         });
       }
 
+      //valime filmid, mille alguskellaaeg on alates valitud alguskellaajast
       if (this.algusAeg) {
         filtreeritud = filtreeritud.filter(item => item.algusaeg >= this.algusAeg);
       }
 
+      // valime filmid, mille kuupäev on alates valitud kuupäevast
       if (this.algusKuupäev) {
         const selectedDate = new Date(this.algusKuupäev);
         filtreeritud = filtreeritud.filter(item => {
@@ -136,9 +140,11 @@ export default {
 
       return filtreeritud;
     },
+    //leiame kinoseanssides esinevate žanrite hulga
     zanrid() {
       return [...new Set(this.kinokava.map(item => item.film?.žanr))];
     },
+    //leiame vanusevahemike hulga
     vanuseVahemikud() {
       return [...new Set(this.kinokava.map(item => item.film?.vanusepiirang))];
     }
@@ -147,6 +153,7 @@ export default {
     this.fetchKinokava();
   },
   methods: {
+    //soovituse hankimise päring back-endi külastaja id järgi
     async submitKylastajaId() {
       try {
         const response = await fetch(`http://localhost:8081/soovitused/${this.kylastajaId}`);
@@ -156,6 +163,7 @@ export default {
         console.error("Viga soovituse hankimisel back-endist:", error);
       }
     },
+    //tulevaste seansside listi hankimine back-endist get päringuga
     async fetchKinokava() {
       try {
         const response = await fetch('http://localhost:8081/kinokava');
@@ -169,6 +177,7 @@ export default {
       // ajafilter lähtestatakse kui valitakse uus kuupäev
       this.algusAeg = "";
     },
+    //nupu "Vali" vajutamisel kohtade soovitamise vaatesse edasi suunamine
     navigateToFilmisaal(selectedSeanss) {
       // Suuna edasi filmisaali vaatesse, edastades valitud seansi andmed
       this.$router.push({name: 'Filmisaal', params: {seanss: selectedSeanss}});
