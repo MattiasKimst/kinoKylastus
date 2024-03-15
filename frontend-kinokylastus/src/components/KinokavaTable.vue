@@ -20,8 +20,10 @@
 
     <div class="filter-section">
       <label>Algus alates:</label>
-      <input type="time" v-model="algusAeg" step="1" class="input-field">
+      <input type="time" v-model="algusAeg" step="3600" class="input-field">
     </div>
+
+
 
     <div class="filter-section">
       <label>Kuupäev alates:</label>
@@ -57,11 +59,13 @@
         </tr>
         </tbody>
       </table>
+      <br>
+      <h3>Sisesta oma ID varasemate vaatamiste põhjal filmi soovitamiseks</h3>
     </div>
     <form @submit.prevent="submitKylastajaId">
-      <label for="kylastajaId">Külastaja ID:</label>
+      <label for="kylastajaId">ID:</label>
       <input type="text" id="kylastajaId" v-model="kylastajaId" class="input-field">
-      <button type="submit">Soovitus</button>
+      <button type="submit">Soovita</button>
     </form>
     <div v-if="soovitusData">
       <h2>Soovitus:</h2>
@@ -202,59 +206,75 @@ export default {
 <style scoped>
 .kinokava-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
-.filter-section {
-  margin-bottom: 10px;
+.filter-section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
 }
 
 .input-field {
-  width: 100%;
-  height: 30px;
+  width: calc(100% - 10px);
+  height: 40px;
   padding: 5px;
-}
-
-.table-container {
-  width: 100%;
-  overflow-x: auto;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .table th,
 .table td {
-  padding: 8px;
+  padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 2px solid #ddd;
 }
 
 .table th {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: #4CAF50;
+  color: white;
 }
 
 .table tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: #f1f1f1;
 }
 
-.soovitus-table {
-  width: 100%;
-  border-collapse: collapse;
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-.soovitus-table th,
-.soovitus-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+button:hover {
+  background-color: white;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
 }
 
 .soovitus-table th {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: #333;
+  color: white;
 }
+
 </style>
