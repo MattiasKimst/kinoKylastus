@@ -13,9 +13,10 @@ import java.util.List;
 public interface KinoseanssRepository extends JpaRepository<Kinoseanss, Long> {
 
     @Query("SELECT k FROM Kinoseanss k WHERE k.algusaeg > CURRENT_TIMESTAMP ")
-    List<Kinoseanss> leiaNädalaSeansid();
+    List<Kinoseanss> leiaTulevasedSeansid();
 
-    @Query("SELECT k FROM Kinoseanss k WHERE k.film.žanr = :genre AND k.algusaeg > :currentDate ORDER BY k.algusaeg ASC")
+    @Query("SELECT k FROM Kinoseanss k WHERE k.film.žanr = :genre AND k.algusaeg > :currentDate ORDER BY k.algusaeg ASC LIMIT 1")
     Kinoseanss findFirstUpcomingByGenre(@Param("genre") String genre, @Param("currentDate") LocalDateTime currentDate);
+
 }
 

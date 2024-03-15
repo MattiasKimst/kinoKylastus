@@ -22,6 +22,11 @@ public class SoovitusedController {
         this.soovitusService = soovitusedService;
     }
 
+    /**
+     * meetod, mis tagastan etteantud külastaja ID põhjal soovituse
+     * @param kylastajaId külastajale vastav id
+     * @return soovitatud Kinoseanss
+     */
     @GetMapping("/soovitused/{kylastajaId}")
     public Kinoseanss getRecommendedKinoseanss(@PathVariable Long kylastajaId) {
         return soovitusService.soovitaSeanssi(kylastajaId);

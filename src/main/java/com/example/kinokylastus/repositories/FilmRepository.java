@@ -3,5 +3,5 @@ import com.example.kinokylastus.entity.Film;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FilmRepository extends JpaRepository<Film, Long> {
-    // Additional custom methods can be defined here if needed
+
 }

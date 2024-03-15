@@ -40,27 +40,10 @@ public class Kylastus {
         this.id = id;
     }
 
-    public Kylastaja getKülastaja() {
-        return kylastaja;
-    }
-
-    public void setKülastaja(Kylastaja külastaja) {
-        this.kylastaja = külastaja;
-    }
-
-    public int getIstekoht() {
-        return istekoht;
-    }
-
-    public void setIstekoht(int istekoht) {
-        this.istekoht = istekoht;
-    }
 
     public Kinoseanss getKinoseanss() {
         return kinoseanss;
     }
 
-    public void setKinoseanss(Kinoseanss kinoseanss) {
-        this.kinoseanss = kinoseanss;
-    }
+
 }

@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/kinokava")
 public class KinokavaController {
 
     @Autowired
     private KinokavaService kinokavaService;
-
+    /**
+     *meetod, mis tagastab tulevasste kinoseansside listi
+     */
     @GetMapping
     public List<Kinoseanss> getKinokava() {
 

@@ -4,5 +4,5 @@ import com.example.kinokylastus.entity.Kylastaja;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface KylastajaRepository extends JpaRepository<Kylastaja, Long> {
-    // Additional custom methods can be defined here if needed
+
 }
